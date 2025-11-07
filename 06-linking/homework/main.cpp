@@ -27,24 +27,37 @@ parse_args(int argc, char **argv, input_args &in_args) {
   for (int i = first_arg_pos; i < argc; ++i) {
     
     std::string argv_value = argv[i];
+    bool is_value_fo_max = true;
     
-    if (argv_value == "-max") {
+    if (argv_value == "-max" && is_arg == NOT_ARG) {
       is_arg = IS_MAX;
+      if (i + 1 == argc) {
+        is_value_fo_max = false;
+      } else {
       continue;
-    } else if (argv_value == "-level") {
+      }
+    }
+    if (argv_value == "-level" && is_arg == NOT_ARG) {
       is_arg = IS_LEVEL;
-    } else if (argv_value == "-table") {
+    }
+    if (argv_value == "-table" && is_arg == NOT_ARG) {
       is_arg = IS_TABLE;
     }
 
     switch (is_arg)
     {
       case IS_MAX: {
-        auto value = std::stoi(argv[i]);
+        if (is_value_fo_max) {
+          unsigned int value = std::atoi(argv[i]);
         if (value > 0) {
           in_args.max_number_value = value;
+            std::cout << "Using " << value << " as max value...\n";
+            is_arg = NOT_ARG;
+            break;
+          }
         }
-        is_arg = NOT_ARG;
+        std::cout << "Wrong value! Argument \"-max\" must have a positive digit value!\n";
+        std::cout << "Used default settings for max value!\n";
         break;
       }
 
