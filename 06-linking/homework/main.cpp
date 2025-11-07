@@ -121,15 +121,19 @@ int
 main(int argc, char **argv) {
   input_args in_args {.max_number_value = 100, .level = 0, .table = false};
   parse_args(argc, argv, in_args);
+
+  // Настройки по умолчанию
+  game_preferences game_prefs {
+    .player_name = {},
+    .high_scores_filename = "high_scores.txt", 
+    .target_value = get_target_value(in_args.max_number_value),
+    .max_value = in_args.max_number_value,
+    .nof_attempts = 0
+  }; 
   
   std::cout << "The game begins...\n\n";
-  game_preferences game_prefs; 
-  game_prefs.high_scores_filename = "high_scores.txt";
-  game_prefs.player_name = get_player_name();
-  game_prefs.target_value = get_target_value(in_args.max_number_value);
-  game_prefs.max_value = in_args.max_number_value;
-  game_prefs.nof_attempts = 0;
 
+  game_prefs.player_name = get_player_name();
   std::cout << "Hello, " << game_prefs.player_name << "!\n";
   std::cout << "You should guess the number in [0, ..., " << game_prefs.max_value << "]\n";
   std::cout << "Please, enter your guess: ";
