@@ -9,7 +9,6 @@
 struct input_args
 {
   unsigned int max_number_value;
-  int level;
   bool table;  
 };
 
@@ -18,6 +17,7 @@ parse_args(int argc, char **argv, input_args &in_args) {
   
   const int first_arg_pos = 1;
   if (argc <= first_arg_pos) {
+    std::cout << "Used default settings!\n";
     return;
   }
 
@@ -31,27 +31,33 @@ parse_args(int argc, char **argv, input_args &in_args) {
   for (int i = first_arg_pos; i < argc; ++i) {
     
     std::string argv_value = argv[i];
-    bool is_value_fo_max = true;
-    
-    if (argv_value == "-max" && is_arg == NOT_ARG) {
-      is_arg = IS_MAX;
-      if (i + 1 == argc) {
-        is_value_fo_max = false;
-      } else {
-        continue;
+    bool is_next_value = true;
+
+    if (is_arg == NOT_ARG) {
+      // Детектирование -max и -level
+      if (argv_value == "-max" || argv_value == "-level") {
+        if (i + 1 == argc) {
+          is_next_value = false;
+        }
+        if (argv_value == "-max") {
+          is_arg = IS_MAX;
+          continue;
+        } else if (argv_value == "-level") {
+          is_arg = IS_LEVEL;
+          continue;
+        }
       }
-    }
-    if (argv_value == "-level" && is_arg == NOT_ARG) {
-      is_arg = IS_LEVEL;
-    }
-    if (argv_value == "-table" && is_arg == NOT_ARG) {
-      is_arg = IS_TABLE;
+      // Детектирование -table
+      if (argv_value == "-table" && is_arg == NOT_ARG) {
+        in_args.table = true;
+        return;
+      }
     }
 
     switch (is_arg)
     {
       case IS_MAX: {
-        if (is_value_fo_max) {
+        if (is_next_value) {
           unsigned int value = std::atoi(argv[i]);
           if (value > 0) {
             in_args.max_number_value = value;
@@ -61,20 +67,48 @@ parse_args(int argc, char **argv, input_args &in_args) {
           }
         }
         std::cout << "Wrong value! Argument \"-max\" must have a positive digit value!\n";
-        std::cout << "Used default settings for max value!\n";
+        std::cout << "Used default settings for \"max\" value!\n";
+        is_arg = NOT_ARG;
         break;
       }
 
-      case IS_LEVEL:
+      case IS_LEVEL: {
+        if (is_next_value) {
+          unsigned int value = std::atoi(argv[i]);
+          bool is_new_max_value = true;
+          if (value > 0) {
+            switch (value) {
+              case 1:
+                in_args.max_number_value = 10;
+                break;
+              
+              case 2:
+                in_args.max_number_value = 50;
+                break;
+
+              case 3:
+                in_args.max_number_value = 100;
+                break;
+                
+              default:
+                is_new_max_value = false;
+                break;
+            }
+            if (is_new_max_value) {
+              std::cout << "Using " << in_args.max_number_value << " as max value...\n";
+              is_arg = NOT_ARG;
+              break;
+            }
+          }
+        }
+        std::cout << "Wrong value! Argument \"-level\" must be in [1, ..., 3]!\n";
+        std::cout << "Used default settings for \"-level\" value!\n";
         is_arg = NOT_ARG;
         break;
-    
-      case IS_TABLE:
-        is_arg = NOT_ARG;
-        break;
+      }
       
-        default:
-          std::cout << "Wrong input value: " << argv_value << "!\n";
+      default:
+        std::cout << "Wrong input value: " << argv_value << "!\n";
         break;
     }
   }
@@ -119,7 +153,7 @@ get_and_check_value(unsigned int target_value) {
 
 int
 main(int argc, char **argv) {
-  input_args in_args {.max_number_value = 100, .level = 0, .table = false};
+  input_args in_args {.max_number_value = 100, .table = false};
   parse_args(argc, argv, in_args);
 
   // Настройки по умолчанию
@@ -130,6 +164,12 @@ main(int argc, char **argv) {
     .max_value = in_args.max_number_value,
     .nof_attempts = 0
   }; 
+
+  // Если был передан аргумент table, выводится таблица рекордов и программа завершается
+  if (in_args.table) {
+    high_scores_ouput(game_prefs);
+    return 0;
+  }
   
   std::cout << "The game begins...\n\n";
 
