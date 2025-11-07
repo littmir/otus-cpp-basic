@@ -1,4 +1,5 @@
 #include <ctime>
+#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -12,8 +13,10 @@ struct input_args
 struct game_preferences
 {
   std::string player_name;
+  std::string high_scores_filename;
   unsigned int target_value;
   unsigned int max_value; 
+  unsigned int nof_attempts;
 };
 
 void
@@ -120,6 +123,42 @@ get_and_check_value(unsigned int target_value) {
   return false;
 }
 
+void process_high_score(game_preferences &game_prefs) {
+  std::ofstream output_file{game_prefs.high_scores_filename, std::ios_base::app};
+  if (!output_file.is_open()) {
+    std::cout << "Failed to open file for write: " << game_prefs.high_scores_filename << "!\n";
+      return;
+  }
+
+  output_file << game_prefs.player_name << ' ';
+  output_file << game_prefs.nof_attempts;
+  output_file << "\n";
+  output_file.close();
+
+  std::ifstream input_file{game_prefs.high_scores_filename, std::ios_base::in};
+  if (!input_file.is_open()) {
+   std::cout << "Failed to open file for read: " << game_prefs.high_scores_filename << "!\n";
+   return;
+  }
+
+  std::cout << "High scores table: \n";
+  std::cout << "Player_name "<< '\t' << "High_score";
+  std::string player_name;
+  int high_score = 0;
+  while (true) {
+   input_file >> player_name;
+   input_file >> high_score;
+   input_file.ignore();
+   if (input_file.fail()) {
+    break;
+   }
+
+   std::cout << "\n" << player_name << '\t' << high_score;
+  }
+  std::cout << " <-- is you :)\n";
+  input_file.close();
+}
+
 int
 main(int argc, char **argv) {
   input_args in_args {.max_number_value = 100, .level = 0, .table = false};
@@ -127,9 +166,11 @@ main(int argc, char **argv) {
   
   std::cout << "The game begins...\n\n";
   game_preferences game_prefs; 
+  game_prefs.high_scores_filename = "high_scores.txt";
   game_prefs.player_name = get_player_name();
   game_prefs.target_value = get_target_value(in_args.max_number_value);
   game_prefs.max_value = in_args.max_number_value;
+  game_prefs.nof_attempts = 0;
 
   std::cout << "Hello, " << game_prefs.player_name << "!\n";
   std::cout << "You should guess the number in [0, ..., " << game_prefs.max_value << "]\n";
@@ -137,11 +178,14 @@ main(int argc, char **argv) {
 
 	while (true) {
 	  bool is_win = get_and_check_value(game_prefs.target_value);
+    game_prefs.nof_attempts += 1;
     if (is_win) {
-      std::cout << "You won!" << "\n";
+      std::cout << "You won! " << "Attempts = " << game_prefs.nof_attempts << "\n";
       break;
     }
   }
+
+  process_high_score(game_prefs);
 
   return 0;
 }
