@@ -5,5 +5,6 @@ project(${PROJ_NAME})
 
 add_executable(
 	${PROJ_NAME}
+	high_scores.cpp
 	main.cpp
 )
