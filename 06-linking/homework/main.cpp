@@ -9,6 +9,13 @@ struct input_args
   bool table;  
 };
 
+struct game_preferences
+{
+  std::string player_name;
+  unsigned int target_value;
+  unsigned int max_value; 
+};
+
 void
 parse_args(int argc, char **argv, input_args &in_args) {
   
@@ -34,7 +41,7 @@ parse_args(int argc, char **argv, input_args &in_args) {
       if (i + 1 == argc) {
         is_value_fo_max = false;
       } else {
-      continue;
+        continue;
       }
     }
     if (argv_value == "-level" && is_arg == NOT_ARG) {
@@ -49,8 +56,8 @@ parse_args(int argc, char **argv, input_args &in_args) {
       case IS_MAX: {
         if (is_value_fo_max) {
           unsigned int value = std::atoi(argv[i]);
-        if (value > 0) {
-          in_args.max_number_value = value;
+          if (value > 0) {
+            in_args.max_number_value = value;
             std::cout << "Using " << value << " as max value...\n";
             is_arg = NOT_ARG;
             break;
@@ -76,10 +83,65 @@ parse_args(int argc, char **argv, input_args &in_args) {
   }
 }
 
+std::string
+get_player_name() {
+  std::cout << "Enter your name: ";
+  std::string player_name {};
+  std::cin >> player_name;
+  std::cin.ignore();
+  return player_name;
+}
+
+unsigned int
+get_target_value(unsigned int max_value) {
+  std::srand(std::time(nullptr));
+  return static_cast<unsigned int>(std::rand() % max_value);
+}
+
+bool
+get_and_check_value(unsigned int target_value) {
+  int guess_value {};
+  std::cin >> guess_value;
+  
+  if (std::cin.fail()) {
+    std::cout << "Wrong value! Try again... \n";
+    std::cin.clear();
+  } else if (guess_value < 0) {
+    std::cout << "Please, enter a positive value...\n";
+  } else if (guess_value > target_value) {
+    std::cout << "Less than " << guess_value << ", try again: ";
+  } else if (guess_value < target_value) {
+      std::cout << "Greater than " << guess_value << ", try again: ";
+  } else {
+    return true;
+  }
+  
+  std::cin.ignore();
+  return false;
+}
+
 int
 main(int argc, char **argv) {
   input_args in_args {.max_number_value = 100, .level = 0, .table = false};
   parse_args(argc, argv, in_args);
+  
+  std::cout << "The game begins...\n\n";
+  game_preferences game_prefs; 
+  game_prefs.player_name = get_player_name();
+  game_prefs.target_value = get_target_value(in_args.max_number_value);
+  game_prefs.max_value = in_args.max_number_value;
+
+  std::cout << "Hello, " << game_prefs.player_name << "!\n";
+  std::cout << "You should guess the number in [0, ..., " << game_prefs.max_value << "]\n";
+  std::cout << "Please, enter your guess: ";
+
+	while (true) {
+	  bool is_win = get_and_check_value(game_prefs.target_value);
+    if (is_win) {
+      std::cout << "You won!" << "\n";
+      break;
+    }
+  }
 
   return 0;
 }
