@@ -7,6 +7,9 @@ void
 process_high_score(game_preferences &game_prefs);
 
 void
-high_scores_ouput(game_preferences &game_prefs);
+high_scores_output(game_preferences &game_prefs);
+
+void
+high_scores_output_filtered_min(game_preferences &game_prefs);
 
 #endif // HIGH_SCORES_H

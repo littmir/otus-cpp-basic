@@ -166,8 +166,10 @@ main(int argc, char **argv) {
   }; 
 
   // Если был передан аргумент table, выводится таблица рекордов и программа завершается
+  // Таблица рекордов выводится двумя способами: полная, и отфильтрованная по минимальным результатам игроков
   if (in_args.table) {
-    high_scores_ouput(game_prefs);
+    high_scores_output(game_prefs);
+    high_scores_output_filtered_min(game_prefs);
     return 0;
   }
   
