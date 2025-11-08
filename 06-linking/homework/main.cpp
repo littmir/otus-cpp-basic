@@ -68,7 +68,7 @@ parse_args(int argc, char **argv, input_args &in_args) {
     {
       case IS_MAX: {
         if (is_next_value) {
-          unsigned int value = std::atoi(argv[i]);
+          int value = std::stoi(argv_value);
           if (value > 0) {
             in_args.max_number_value = value;
             std::cout << "Using " << value << " as max value...\n";
@@ -84,7 +84,7 @@ parse_args(int argc, char **argv, input_args &in_args) {
 
       case IS_LEVEL: {
         if (is_next_value) {
-          unsigned int value = std::atoi(argv[i]);
+          int value = std::atoi(argv[i]);
           bool is_new_max_value = true;
           if (value > 0) {
             switch (value) {
