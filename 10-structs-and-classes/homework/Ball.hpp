@@ -3,8 +3,11 @@
 #include "Point.hpp"
 #include "Velocity.hpp"
 
-class Ball {
+class Ball
+{
 public:
+    Ball(Point center, double radius, Velocity velocity, Color color, bool isCollidable);
+    
     void setVelocity(const Velocity& velocity);
     Velocity getVelocity() const;
     void draw(Painter& painter) const;
@@ -12,4 +15,12 @@ public:
     Point getCenter() const;
     double getRadius() const;
     double getMass() const;
+
+private:
+    Point center;
+    double radius;
+    Velocity velocity;
+    Color color;
+    bool isCollidable;
+
 };

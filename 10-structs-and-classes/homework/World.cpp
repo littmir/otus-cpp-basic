@@ -59,16 +59,11 @@ World::World(const std::string& worldFilePath) {
         // шаров как столкновение. Если true - требуется.
         // В базовой части задания этот параметр
         stream >> std::boolalpha >> isCollidable;
+        
+        
+        Ball ball(Point(x, y), radius, Point(vx, vy), Color(red, green, blue), isCollidable);
 
-        // TODO: место для доработки.
-        // Здесь не хватает самого главного - создания
-        // объекта класса Ball со свойствами, прочитанными
-        // выше, и его помещения в контейнер balls
-
-        // После того как мы каким-то образом
-        // сконструируем объект Ball ball;
-        // добавьте его в конец контейнера вызовом
-        // balls.push_back(ball);
+        balls.push_back(ball);
     }
 }
 
