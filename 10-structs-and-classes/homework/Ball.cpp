@@ -67,3 +67,7 @@ double Ball::getRadius() const {
 double Ball::getMass() const {
     return M_PI * (pow(radius, 3)) * 4. /  3.;
 }
+
+bool Ball::getCollidability() const {
+    return isCollidable;
+}
