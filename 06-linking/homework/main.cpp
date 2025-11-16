@@ -144,7 +144,9 @@ get_player_name() {
 unsigned int
 get_target_value(unsigned int max_value) {
   std::srand(std::time(nullptr));
-  return static_cast<unsigned int>(std::rand() % max_value);
+  int min_value = 0;
+  
+  return static_cast<unsigned int>(min_value + (std::rand() % (max_value - min_value + 1)));
 }
 
 /*
