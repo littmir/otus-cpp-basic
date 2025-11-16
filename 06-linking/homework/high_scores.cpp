@@ -5,14 +5,23 @@
 #include <iostream>
 #include <vector>
 
+static bool
+open_file_to_read(std::ifstream &input_file, const std::string &file_name) {
+  input_file.open(file_name);
+  if (!input_file.is_open()) {
+    std::cout << "Failed to open file for read: " << file_name << "!\n";
+    return false;
+  }
+  return true;
+}
+
 void
 high_scores_output(const game_preferences &game_prefs) {
-  std::ifstream input_file{game_prefs.high_scores_filename, std::ios_base::in};
-  if (!input_file.is_open()) {
-   std::cout << "Failed to open file for read: " << game_prefs.high_scores_filename << "!\n";
-   return;
+  std::ifstream input_file;
+  if(!open_file_to_read(input_file, game_prefs.high_scores_filename)) {
+    return;
   }
-
+  
   std::cout << "High scores table: \n";
   std::cout << "Player_name "<< '\t' << "High_score";
   std::string player_name {};
@@ -40,10 +49,9 @@ high_scores_output(const game_preferences &game_prefs) {
 */
 void
 high_scores_output_filtered_min(const game_preferences &game_prefs) {
-  std::ifstream input_file{game_prefs.high_scores_filename, std::ios_base::in};
-  if (!input_file.is_open()) {
-   std::cout << "Failed to open file for read: " << game_prefs.high_scores_filename << "!\n";
-   return;
+  std::ifstream input_file;
+  if(!open_file_to_read(input_file, game_prefs.high_scores_filename)) {
+    return;
   }
 
   std::vector<std::string> players_names {};
