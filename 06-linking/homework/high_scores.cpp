@@ -6,7 +6,7 @@
 #include <vector>
 
 void
-high_scores_output(game_preferences &game_prefs) {
+high_scores_output(const game_preferences &game_prefs) {
   std::ifstream input_file{game_prefs.high_scores_filename, std::ios_base::in};
   if (!input_file.is_open()) {
    std::cout << "Failed to open file for read: " << game_prefs.high_scores_filename << "!\n";
@@ -39,7 +39,7 @@ high_scores_output(game_preferences &game_prefs) {
 попыток и выводить только их.
 */
 void
-high_scores_output_filtered_min(game_preferences &game_prefs) {
+high_scores_output_filtered_min(const game_preferences &game_prefs) {
   std::ifstream input_file{game_prefs.high_scores_filename, std::ios_base::in};
   if (!input_file.is_open()) {
    std::cout << "Failed to open file for read: " << game_prefs.high_scores_filename << "!\n";
@@ -89,7 +89,7 @@ high_scores_output_filtered_min(game_preferences &game_prefs) {
 }
 
 void
-process_high_score(game_preferences &game_prefs) {
+process_high_score(const game_preferences &game_prefs) {
   std::ofstream output_file{game_prefs.high_scores_filename, std::ios_base::app};
   if (!output_file.is_open()) {
     std::cout << "Failed to open file for write: " << game_prefs.high_scores_filename << "!\n";
