@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <istream>
 
 class Point {
   public:
@@ -8,6 +9,12 @@ class Point {
     double x{};
     double y{};
 };
+
+inline std::istream& operator>>(std::istream& stream, Point& p) {
+    stream >> p.x;
+    stream >> p.y;
+    return stream;
+}
 
 inline Point operator-(const Point& lhs, const Point& rhs) {
     return {lhs.x - rhs.x, lhs.y - rhs.y};
