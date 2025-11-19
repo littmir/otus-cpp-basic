@@ -3,9 +3,12 @@
 #include "Point.hpp"
 #include "Velocity.hpp"
 
+#include <istream>
+
 class Ball
 {
 public:
+    Ball() = default;
     Ball(Point center, double radius, Velocity velocity, Color color, bool isCollidable);
     
     void setVelocity(const Velocity& velocity);
@@ -16,6 +19,8 @@ public:
     double getRadius() const;
     double getMass() const;
     bool getCollidability() const;
+
+    friend std::istream& operator>>(std::istream& is, Ball &ball);
 
 private:
     Point center;

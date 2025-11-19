@@ -6,6 +6,25 @@ Ball::Ball(Point center, double radius, Velocity velocity, Color color, bool isC
 
 }
 
+std::istream& operator>>(std::istream& is, Ball &ball) {
+  Point center;
+  double radius;
+  Point velocity;
+  Color color;
+  bool isCollidable;
+
+  if (is >> center >> velocity >> color >> radius
+        >> std::boolalpha >> isCollidable) {
+    ball.center = center;
+    ball.radius = radius;
+    ball.velocity = velocity;
+    ball.color = color;
+    ball.isCollidable = isCollidable;
+  }
+
+  return is;
+};
+
 /**
  * Задает скорость объекта
  * @param velocity новое значение скорости

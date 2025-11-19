@@ -20,33 +20,20 @@ World::World(const std::string& worldFilePath) {
     stream >> bottomRight;
     physics.setWorldBox(topLeft, bottomRight);
 
-    Point center;
-    Point vector;
-    double radius;
-    Color color;
-    bool isCollidable;
-
     // Здесь не хватает обработки ошибок, но на текущем
     // уровне прохождения курса нас это устраивает
     while (stream.peek(), stream.good()) {
-        // Читаем координаты центра шара и вектор
-        // его скорости
-        stream >> center;
-        stream >> vector;
-        // Читаем три составляющие цвета шара
-        stream >> color;
-        // Читаем радиус шара
-        stream >> radius;
-        // Читаем свойство шара isCollidable, которое
-        // указывает, требуется ли обрабатывать пересечение
-        // шаров как столкновение. Если true - требуется.
-        // В базовой части задания этот параметр
-        stream >> std::boolalpha >> isCollidable;
-        
-        Ball ball(center, radius, vector, color, isCollidable);
-
-        balls.push_back(ball);
+      Ball ball = readBall(stream);
+      balls.push_back(ball);
     }
+}
+
+Ball World::readBall(std::ifstream &stream) {
+
+  Ball ball;
+  stream >> ball;
+
+  return ball;
 }
 
 /// @brief Отображает состояние мира
