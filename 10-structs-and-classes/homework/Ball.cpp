@@ -2,8 +2,8 @@
 #include <cmath>
 
 Ball::Ball(Point center, double radius, Velocity velocity, Color color, bool isCollidable) 
-    : center(center), radius(radius), velocity(velocity), color(color), isCollidable(isCollidable) {
-
+    : center(center), radius(radius), velocity(velocity), color(color), isCollidable(isCollidable),
+      mass(M_PI * pow(radius, 3) * 4. / 3.) {
 }
 
 std::istream& operator>>(std::istream& is, Ball &ball) {
@@ -20,6 +20,7 @@ std::istream& operator>>(std::istream& is, Ball &ball) {
     ball.velocity = velocity;
     ball.color = color;
     ball.isCollidable = isCollidable;
+    ball.mass = M_PI * pow(radius, 3) * 4. / 3.;
   }
 
   return is;
@@ -84,7 +85,7 @@ double Ball::getRadius() const {
  * эквивалентна объему: PI * radius^3 * 4. / 3.
  */
 double Ball::getMass() const {
-    return M_PI * (pow(radius, 3)) * 4. /  3.;
+    return mass;
 }
 
 bool Ball::getCollidability() const {

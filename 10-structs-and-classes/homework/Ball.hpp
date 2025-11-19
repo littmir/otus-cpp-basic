@@ -28,5 +28,5 @@ private:
     Velocity velocity;
     Color color;
     bool isCollidable;
-
+    double mass;
 };
