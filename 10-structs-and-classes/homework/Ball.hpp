@@ -29,4 +29,6 @@ private:
     Color color{0, 0, 0};
     bool isCollidable{false};
     double mass{0};
+
+    void calcMass();
 };
