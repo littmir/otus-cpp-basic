@@ -23,10 +23,10 @@ public:
     friend std::istream& operator>>(std::istream& is, Ball &ball);
 
 private:
-    Point center;
-    double radius;
-    Velocity velocity;
-    Color color;
-    bool isCollidable;
-    double mass;
+    Point center{0, 0};
+    double radius{0};
+    Velocity velocity{Point(0, 0)};
+    Color color{0, 0, 0};
+    bool isCollidable{false};
+    double mass{0};
 };
