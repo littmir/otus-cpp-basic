@@ -6,7 +6,7 @@
 
 class Mean : public IStatistics {
 public:
-  Mean() : m_mean{0}, m_sum{0}, m_nof{0} {}
+  Mean() : m_mean{0.0}, m_sum{0.0}, m_nof{0} {}
 
   void update(double next) override {
     m_nof++;

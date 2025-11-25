@@ -9,7 +9,7 @@
 
 class Std : public IStatistics {
 public:
-  Std() : m_mean{}, m_std{0}, m_sum{0}, m_nof{0} {}
+  Std() : m_mean{}, m_std{0.0}, m_sum{0.0}, m_nof{0} {}
 
   void update(double next) override {
     m_mean.update(next);
@@ -19,7 +19,7 @@ public:
     
     m_nof++;
 
-    m_sum = 0;
+    m_sum = 0.0;
     for (int i = 0; i < m_nof; ++i) {
       m_sum += pow(values[i] - mean, 2);
     }
