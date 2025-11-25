@@ -9,7 +9,7 @@
 
 class Std : public IStatistics {
 public:
-  Std() : m_mean{} {}
+  Std() : m_mean{}, values{} {}
 
   void update(double next) override {
     m_mean.update(next);
