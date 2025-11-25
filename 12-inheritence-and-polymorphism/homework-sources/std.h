@@ -9,26 +9,20 @@
 
 class Std : public IStatistics {
 public:
-  Std() : m_mean{}, m_std{0.0}, m_sum{0.0}, m_nof{0} {}
+  Std() : m_mean{} {}
 
   void update(double next) override {
     m_mean.update(next);
-    double mean = m_mean.eval();
-
     values.push_back(next);
-    
-    m_nof++;
-
-    m_sum = 0.0;
-    for (int i = 0; i < m_nof; ++i) {
-      m_sum += pow(values[i] - mean, 2);
-    }
-    
-    m_std = sqrt(m_sum / static_cast<double>(m_nof));
   }
 
   double eval() const override {
-    return m_std;
+    double sum = 0.0;
+    double mean = m_mean.eval();
+    for (int i = 0; i < values.size(); ++i) {
+      sum += pow(values[i] - mean, 2);
+    }
+    return sqrt(sum / static_cast<double>(values.size()));
   }
 
   const char * name() const override {
@@ -38,7 +32,4 @@ public:
 private:
   std::vector<double> values;
   Mean m_mean;
-  double m_std;
-  double m_sum;
-  int m_nof;
 };
