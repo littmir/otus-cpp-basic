@@ -172,11 +172,31 @@ check_push_back()
   arr.print();
 }
 
+void
+check_insert()
+{
+  Array arr;
+
+  arr.insert(1, 0);
+  arr.insert(2, 0);
+  arr.insert(3, 0);
+
+  // {3, 2, 1}
+  arr.print();
+
+  arr.erase(2);
+  arr.insert(1, 2);
+
+  // {3, 2, 1}
+  arr.print();
+}
+
 int
 main()
 {
   check_erase();
   check_push_back();
+  check_insert();
 
   return 0;
 }
