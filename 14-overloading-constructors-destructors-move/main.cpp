@@ -44,7 +44,7 @@ public:
       elements_ = new_elements;
     }
     else {
-      elements_[size_ + 1] = new_element;
+      elements_[size_] = new_element;
       size_++;
     }
   }
