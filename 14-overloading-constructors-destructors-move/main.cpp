@@ -1,10 +1,11 @@
 #include <iostream>
 
+template <typename T>
 class Array
 {
 public:
   Array() : elements_(nullptr), size_(0), capacity_(0) {};
-  Array(const int new_element) : elements_(nullptr), size_(0), capacity_(0)
+  Array(const T new_element) : elements_(nullptr), size_(0), capacity_(0)
   {
     push_back(new_element);
   };
@@ -22,11 +23,11 @@ public:
   };
 
   void
-  push_back(const int &new_element)
+  push_back(const T &new_element)
   {
     // Выделение памяти на первое добавление в контейнер
     if (capacity_ == 0) {
-      elements_ = new int[1];
+      elements_ = new T;;
       ++capacity_;
       elements_[0] = new_element;
       ++size_;
@@ -34,7 +35,7 @@ public:
     // Выделение памяти на последующие добавления в контейнер
     else if (size_ == capacity_) {
       capacity_++;
-      int *new_elements = new int[capacity_];
+      T *new_elements = new T[capacity_];
       for (unsigned int i = 0; i < size_; ++i) {
         new_elements[i] = elements_[i];
       }
@@ -50,12 +51,12 @@ public:
   }
 
   void
-  insert(const int &new_element, const unsigned int position)
+  insert(const T &new_element, const unsigned int position)
   {
     // Если position > capacity контейнера, то контейнер расширяется до position
     if (position > capacity_) {
       capacity_ = position;
-      int *new_elements = new int[capacity_];
+      T *new_elements = new T[capacity_];
       for (unsigned int i = 0; i < size_; ++i) {
         new_elements[i] = elements_[i];
       }
@@ -67,7 +68,7 @@ public:
     // Вставка нового элемента между элементами
     else {
       capacity_++;
-      int *new_elements = new int[capacity_];
+      T *new_elements = new T[capacity_];
       int shift = 0;
       for (unsigned int i = 0; i < capacity_; ++i) {
         if(i == position) {
@@ -113,7 +114,7 @@ public:
   }
 
 private:
-  int *elements_;
+  T *elements_;
   unsigned int size_;
   unsigned int capacity_;
 };
@@ -121,7 +122,7 @@ private:
 void 
 check_erase()
 {
-  Array arr;
+  Array<int> arr;
   
   arr.erase(0);
   
@@ -145,9 +146,9 @@ check_erase()
 void
 check_push_back()
 {
-  Array arr;
+  Array<double> arr;
 
-  arr.push_back(1);
+  arr.push_back(1.2);
   arr.push_back(2);
   arr.push_back(3);
 
@@ -175,17 +176,17 @@ check_push_back()
 void
 check_insert()
 {
-  Array arr;
+  Array<std::string> arr;
 
-  arr.insert(1, 0);
-  arr.insert(2, 0);
-  arr.insert(3, 0);
+  arr.insert("1", 0);
+  arr.insert("2", 0);
+  arr.insert("3", 0);
 
   // {3, 2, 1}
   arr.print();
 
   arr.erase(2);
-  arr.insert(1, 2);
+  arr.insert("1", 2);
 
   // {3, 2, 1}
   arr.print();
