@@ -83,10 +83,17 @@ public:
     }
   }
 
+  // Удаление без перераспределения памяти для возможных
+  // новых вставок
   void
   erase(const unsigned int position)
   {
-
+    if (position <= size_ && size_ > 0) {
+      for (unsigned int i = position; i < size_ - 1; ++i) {
+        elements_[i] = elements_[i + 1];
+      }
+      --size_;
+    }
   }
 
   int
@@ -96,34 +103,80 @@ public:
       return elements_[index];
   }
 
+  void
+  print()
+  {
+    for (unsigned int i = 0; i <  size_; ++i) {
+      std::cout << elements_[i] << " ";
+    }
+    std::cout << "\n";
+  }
+
 private:
   int *elements_;
   unsigned int size_;
   unsigned int capacity_;
 };
 
+void 
+check_erase()
+{
+  Array arr;
+  
+  arr.erase(0);
+  
+  arr.push_back(1);
+  arr.push_back(2);
+  arr.push_back(3);
+
+  arr.erase(1); // Удаление двойки
+
+  // {1, 3}
+  arr.print();
+
+  arr.erase(2);
+  arr.erase(2);
+
+  arr.erase(1);
+  arr.erase(0);
+  arr.erase(1);;
+}
+
+void
+check_push_back()
+{
+  Array arr;
+
+  arr.push_back(1);
+  arr.push_back(2);
+  arr.push_back(3);
+
+  // {1, 2, 3}
+  arr.print();
+
+  arr.erase(1); // Удаление двойки
+
+  // {1, 3}
+  arr.print();
+
+  arr.push_back(4);
+
+  // {1, 3, 4}
+  arr.print();
+
+  arr.insert(5, 3);
+
+  arr.push_back(6);
+
+  // {1, 3, 4, 5, 6}
+  arr.print();
+}
+
 int
 main()
 {
-  Array array;
-  std::cout << array.get_size();
-
-
-  Array array_2(2);
-  for (unsigned int i = 0; i < array_2.get_size(); ++i) {
-    std::cout << array_2[i] << " ";
-  }
-
-  array.push_back(1);
-  array.push_back(2);
-  array.push_back(3);
-  array.push_back(4);
-
-  array.insert(55, 4);
-  array.insert(66, 0);
-  for (unsigned int i = 0; i < array.get_size(); ++i) {
-    std::cout << array[i] << " ";
-  }
+  check_erase();
+  check_push_back();
 
   return 0;
 }
