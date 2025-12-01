@@ -15,6 +15,12 @@ public:
     return size_;
   };
 
+  unsigned int
+  get_capacity() const
+  {
+    return capacity_;
+  };
+
   void
   push_back(const int &new_element)
   {
