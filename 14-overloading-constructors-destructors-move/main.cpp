@@ -22,6 +22,16 @@ public:
     ++size_;
   };
 
+  ~List() 
+  {
+    Node *node = nullptr;
+    for (unsigned int i = 0; i < size_; ++i) {
+      node = head_;
+      head_ = head_->next;
+      delete node;
+    }
+  }
+
   void
   push_back(const int data)
   {
@@ -72,6 +82,30 @@ public:
           node = node->next;
         }
       }
+    }
+  }
+
+  void
+  erase(unsigned int position)
+  {
+    Node *node = head_;
+    for (unsigned int i = 0; i < size_; ++i) {
+      if (position == i) {
+        if (node != tail_) {
+          node->next->prev = node->prev;
+        } else {
+          tail_ = node->prev;
+        }
+        if (node != head_) {
+          node->prev->next = node->next;
+        } else {
+          head_ = node->next;
+        }
+        delete node;
+        --size_;
+        return;
+      }
+      node = node->next;
     }
   }
 
