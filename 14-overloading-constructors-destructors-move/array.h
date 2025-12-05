@@ -98,7 +98,7 @@ public:
     }
   }
 
-  int
+  T
   operator[](const unsigned int index)
   {
     if (index <= size_)
