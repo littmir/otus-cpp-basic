@@ -10,6 +10,10 @@ public:
   {
     push_back(new_element);
   };
+  ~Array()
+  {
+    delete [] elements_;
+  }
   
   unsigned int
   get_size() const
