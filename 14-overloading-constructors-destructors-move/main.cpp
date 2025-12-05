@@ -36,12 +36,7 @@ public:
   push_back(const int data)
   {
     if (size_ == 0) {
-      head_ = new Node;
-      head_->data = data;
-      head_->next = nullptr;
-      head_->prev = nullptr;
-      tail_ = head_;
-      ++size_;
+      first_add(data);
     }
     else {
       tail_->next = new Node;
@@ -56,25 +51,29 @@ public:
   void
   insert(const int data, const unsigned int position)
   {
-    if(position == 0) {
-      head_ = new Node;
-      head_->data = data;
-      head_->next = nullptr;
-      head_->prev = nullptr;
-      tail_ = head_;
-      ++size_;
-    } 
+    if(size_ == 0) {
+      first_add(data);
+    } else if (position == size_) {
+      push_back(data);
+    }
     else if (position <= size_) {
       Node *node = head_;
       for (unsigned int i = 0; i < size_; ++i) {
         if (i == position) {
           Node *new_node = new Node;
           new_node->data = data;
-          new_node->next = node->next;
-          new_node->prev = node;
-          node->next = new_node;
+          new_node->next = node;
+          // Если предыдущий элемент не первый в списке
+          if (node->prev != nullptr) {
+            node->prev->next = new_node;
+            new_node->prev = node->prev;
+          }
+          node->prev = new_node;
           if (tail_ == new_node->prev) {
             tail_ = new_node;
+          }
+          if (position == 0) {
+            head_ = new_node;
           }
           ++size_;
           break;
@@ -120,9 +119,26 @@ public:
     std::cout << "\n";
   }
 
+  unsigned int
+  get_size()
+  {
+    return size_;
+  }
+
 private:
   Node *head_;
   Node *tail_;
+
+  void
+  first_add(unsigned int data)
+  {
+    head_ = new Node;
+    head_->data = data;
+    head_->next = nullptr;
+    head_->prev = nullptr;
+    tail_ = head_;
+    ++size_;
+  }
 
   unsigned int size_;
 };
@@ -136,10 +152,16 @@ main()
 
   //List list(44);
   List list;
-  list.insert(55,0);
-  list.push_back(66);
+  //list.insert(55,0);
+  list.insert(1, 0);
   list.print();
-  list.insert(77,1);
+  list.insert(2, 1);
+  list.print();
+  list.insert(3, 2);
+  list.print();
+  list.insert(4, 0);
+  list.print();
+  list.insert(5, 1);
   list.print();
 
   return 0;
