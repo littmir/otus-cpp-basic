@@ -125,6 +125,22 @@ public:
     return size_;
   }
 
+  Node *
+  operator[](unsigned int position)
+  {
+    Node *node = head_;
+    if (position <= size_) {
+      for (unsigned int i = 0; i < size_; ++i) {
+        if (position == i) {
+          return node;
+        } else {
+          node = node->next;
+        }
+      }
+    }
+    return nullptr;
+  }
+
 private:
   Node *head_;
   Node *tail_;
@@ -163,6 +179,8 @@ main()
   list.print();
   list.insert(5, 1);
   list.print();
+  Node *n = list[1];
+  std::cout << n->data;
 
   return 0;
 }
