@@ -95,7 +95,7 @@ public:
   erase(const unsigned int position)
   {
     if (position <= size_ && size_ > 0) {
-      for (unsigned int i = position; i < size_ - 1; ++i) {
+      for (unsigned int i = position - 1; i < size_ - 1; ++i) {
         elements_[i] = elements_[i + 1];
       }
       --size_;

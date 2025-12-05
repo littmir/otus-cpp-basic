@@ -90,7 +90,7 @@ public:
   {
     Node *node = head_;
     for (unsigned int i = 0; i < size_; ++i) {
-      if (position == i) {
+      if (position - 1 == i) {
         if (node != tail_) {
           node->next->prev = node->prev;
         } else {
