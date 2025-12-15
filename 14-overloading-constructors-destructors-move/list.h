@@ -14,7 +14,8 @@ public:
   };
 
   List() : head_(nullptr), tail_(head_), size_(0) {};
-  List(const int data) {
+  List(const T data) : head_(nullptr), tail_(head_), size_(0)
+  {
     first_add(data);
   };
 
