@@ -10,7 +10,5 @@ add_executable(${PROJ_NAME}
   main.cpp
 )
 
-add_definitions(${PROJ_NAME} -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
-
 target_compile_options(${PROJ_NAME} PRIVATE
   -Wall -Wextra -pedantic )
