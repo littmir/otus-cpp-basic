@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <iostream>
 
 template <typename T>
@@ -22,7 +23,7 @@ public:
   ~List() 
   {
     Node *node = nullptr;
-    for (unsigned int i = 0; i < size_; ++i) {
+    for (size_t i = 0; i < size_; ++i) {
       node = head_;
       head_ = head_->next;
       delete node;
@@ -46,7 +47,7 @@ public:
   }
 
   void
-  insert(const T data, const unsigned int position)
+  insert(const T data, const  size_t position)
   {
     if(size_ == 0) {
       first_add(data);
@@ -82,10 +83,10 @@ public:
   }
 
   void
-  erase(unsigned int position)
+  erase(size_t position)
   {
     Node *node = head_;
-    for (unsigned int i = 0; i < size_; ++i) {
+    for (size_t i = 0; i < size_; ++i) {
       if (position - 1 == i) {
         if (node != tail_) {
           node->next->prev = node->prev;
@@ -109,30 +110,30 @@ public:
   print()
   {
     Node *node = head_;
-    for (unsigned int i = 0; i < size_; ++i) {
+    for (size_t i = 0; i < size_; ++i) {
       std::cout << node->data << " ";
       node = node->next;
     }
     std::cout << "\n";
   }
 
-  unsigned int
+  size_t
   get_size()
   {
     return size_;
   }
 
   T &
-  operator[](unsigned int position)
+  operator[](size_t position)
   {
     Node *node = head_;
-    unsigned int pos;
+    size_t pos;
     if (position <= size_) {
       pos = position;
     } else {
       pos = size_;
     }
-    for (unsigned int i = 0; i < size_; ++i) {
+    for (size_t i = 0; i < size_; ++i) {
       if (pos == i) {
         return node->data;
       } else {
@@ -156,5 +157,5 @@ private:
     ++size_;
   }
 
-  unsigned int size_;
+  size_t size_;
 };

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 #include <iostream>
 
 template <typename T>
@@ -15,13 +16,13 @@ public:
     delete [] elements_;
   }
   
-  unsigned int
+ size_t
   get_size() const
   {
     return size_;
   };
 
-  unsigned int
+  size_t
   get_capacity() const
   {
     return capacity_;
@@ -41,7 +42,7 @@ public:
     else if (size_ == capacity_) {
       capacity_++;
       T *new_elements = new T[capacity_];
-      for (unsigned int i = 0; i < size_; ++i) {
+      for (size_t i = 0; i < size_; ++i) {
         new_elements[i] = elements_[i];
       }
       new_elements[size_] = new_element;
@@ -56,13 +57,13 @@ public:
   }
 
   void
-  insert(const T &new_element, const unsigned int position)
+  insert(const T &new_element, const size_t position)
   {
     // Если position > capacity контейнера, то контейнер расширяется до position
     if (position > capacity_) {
       capacity_ = position;
       T *new_elements = new T[capacity_];
-      for (unsigned int i = 0; i < size_; ++i) {
+      for (size_t i = 0; i < size_; ++i) {
         new_elements[i] = elements_[i];
       }
       new_elements[position] = new_element;
@@ -75,7 +76,7 @@ public:
       capacity_++;
       T *new_elements = new T[capacity_];
       int shift = 0;
-      for (unsigned int i = 0; i < capacity_; ++i) {
+      for (size_t i = 0; i < capacity_; ++i) {
         if(i == position) {
           shift++;
           continue;
@@ -92,10 +93,10 @@ public:
   // Удаление без перераспределения памяти для возможных
   // новых вставок
   void
-  erase(const unsigned int position)
+  erase(const size_t position)
   {
     if (position <= size_ && size_ > 0) {
-      for (unsigned int i = position - 1; i < size_ - 1; ++i) {
+      for (size_t i = position - 1; i < size_ - 1; ++i) {
         elements_[i] = elements_[i + 1];
       }
       --size_;
@@ -103,7 +104,7 @@ public:
   }
 
   T &
-  operator[](const unsigned int index)
+  operator[](const size_t index)
   {
     if (index <= size_) {
       return elements_[index];
@@ -115,7 +116,7 @@ public:
   void
   print()
   {
-    for (unsigned int i = 0; i <  size_; ++i) {
+    for (size_t i = 0; i <  size_; ++i) {
       std::cout << elements_[i] << " ";
     }
     std::cout << "\n";
@@ -123,8 +124,8 @@ public:
 
 private:
   T *elements_;
-  unsigned int size_;
-  unsigned int capacity_;
+  size_t size_;
+  size_t capacity_;
 };
 
 namespace array_checks {
