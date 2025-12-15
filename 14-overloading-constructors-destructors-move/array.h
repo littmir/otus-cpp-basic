@@ -102,11 +102,14 @@ public:
     }
   }
 
-  T
+  T &
   operator[](const unsigned int index)
   {
-    if (index <= size_)
+    if (index <= size_) {
       return elements_[index];
+    } else {
+      return elements_[size_];
+    }
   }
 
   void

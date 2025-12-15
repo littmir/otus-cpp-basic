@@ -126,17 +126,21 @@ public:
     return size_;
   }
 
-  T
+  T &
   operator[](unsigned int position)
   {
     Node *node = head_;
+    unsigned int pos;
     if (position <= size_) {
-      for (unsigned int i = 0; i < size_; ++i) {
-        if (position == i) {
-          return node->data;
-        } else {
-          node = node->next;
-        }
+      pos = position;
+    } else {
+      pos = size_;
+    }
+    for (unsigned int i = 0; i < size_; ++i) {
+      if (pos == i) {
+        return node->data;
+      } else {
+        node = node->next;
       }
     }
   }
