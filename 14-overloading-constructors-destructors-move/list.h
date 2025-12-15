@@ -118,7 +118,7 @@ public:
   }
 
   size_t
-  get_size()
+  get_size() const
   {
     return size_;
   }
