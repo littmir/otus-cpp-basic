@@ -15,12 +15,7 @@ public:
 
   List() : head_(nullptr), tail_(head_), size_(0) {};
   List(const int data) {
-    head_ = new Node;
-    head_->data = data;
-    head_->next = nullptr;
-    head_->prev = nullptr;
-    tail_ = head_;
-    ++size_;
+    first_add(data);
   };
 
   ~List() 
