@@ -59,17 +59,8 @@ public:
   void
   insert(const T &new_element, const size_t position)
   {
-    // Если position > capacity контейнера, то контейнер расширяется до position
-    if (position > capacity_) {
-      capacity_ = position;
-      T *new_elements = new T[capacity_];
-      for (size_t i = 0; i < size_; ++i) {
-        new_elements[i] = elements_[i];
-      }
-      new_elements[position] = new_element;
-      size_ = position;
-      delete [] elements_;
-      elements_ = new_elements;
+    if (position > size_) {
+      push_back(new_element);
     }
     // Вставка нового элемента между элементами
     else {
