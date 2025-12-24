@@ -31,7 +31,7 @@ public:
   }
 
   void
-  push_back(const T data)
+  push_back(const T &data)
   {
     if (size_ == 0) {
       first_add(data);
@@ -47,7 +47,7 @@ public:
   }
 
   void
-  insert(const T data, const  size_t position)
+  insert(const T &data, const  size_t position)
   {
     if(size_ == 0) {
       first_add(data);
@@ -141,7 +141,7 @@ private:
   Node *tail_;
 
   void
-  first_add(const T data)
+  first_add(const T &data)
   {
     head_ = new Node;
     head_->data = data;
