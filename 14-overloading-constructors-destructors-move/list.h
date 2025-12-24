@@ -127,14 +127,8 @@ public:
   operator[](size_t position)
   {
     Node *node = head_;
-    size_t pos;
-    if (position <= size_) {
-      pos = position;
-    } else {
-      pos = size_;
-    }
     for (size_t i = 0; i < size_; ++i) {
-      if (pos == i) {
+      if (position == i) {
         return node->data;
       } else {
         node = node->next;

@@ -94,14 +94,9 @@ public:
     }
   }
 
-  T &
-  operator[](const size_t index)
+  T &operator[](const size_t index)
   {
-    if (index <= size_) {
-      return elements_[index];
-    } else {
-      return elements_[size_];
-    }
+    return elements_[index];
   }
 
   void
